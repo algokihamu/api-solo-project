@@ -46,7 +46,7 @@ const setupServer = () => {
         postal_code: new_shop.postal_code,
       })
       .returning("id");
-    res.status(201).send(id);
+    res.status(201).send(id[0]);
   });
 
   app.patch("/shops/:id", async (req, res) => {

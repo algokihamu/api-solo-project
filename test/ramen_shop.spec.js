@@ -77,7 +77,7 @@ describe("ramen_shop", () => {
         postal_code: "232-0024",
       };
       const res = await request.post("/shops").send(new_shop);
-      const id = JSON.parse(res.text)[0]["id"];
+      const id = JSON.parse(res.text)["id"];
 
       res.should.have.status(201);
 
