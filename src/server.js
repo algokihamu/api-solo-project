@@ -6,7 +6,7 @@ const RAMEN_SHOP_TABLE = "ramen_shop";
 const setupServer = () => {
   const app = express();
   app.use(express.json());
-  //app.use(express.urlencoded({ extended: true }));
+  app.use(express.urlencoded({ extended: true }));
 
   app.get("/", (req, res) => {
     res.send("Hello World");

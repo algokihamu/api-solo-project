@@ -1,6 +1,7 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 chai.use(chaiHttp);
+chai.should();
 const expect = chai.expect;
 const config = require("../knexfile");
 const knex = require("knex")(config);
@@ -10,12 +11,14 @@ const { ramen_shop } = require("../src/data/ramen_shop_data.json");
 
 const RAMEN_SHOP_TABLE = "ramen_shop";
 
-chai.should();
-
 const server = setupServer();
-describe("customer", () => {
+describe("ramen_shop", () => {
   let request;
-  beforeEach(() => {
+
+  beforeEach(async () => {
+    await knex.migrate.rollback();
+    await knex.migrate.latest();
+    await knex.seed.run();
     request = chai.request(server);
   });
 
@@ -65,6 +68,7 @@ describe("customer", () => {
   describe("POST /shops -- insert new ramen shop", () => {
     it("should return new ramen shop id", async () => {
       const new_shop = {
+        id: 6,
         name: "味玉",
         city: "神奈川県",
         region: "横浜市",
@@ -80,18 +84,7 @@ describe("customer", () => {
       request = chai.request(server);
       const res2 = await request.get(`/shops/${id}`);
 
-      JSON.parse(res2.text)[0]["name"].should.deep.equal(new_shop["name"]);
-      JSON.parse(res2.text)[0]["city"].should.deep.equal(new_shop["city"]);
-      JSON.parse(res2.text)[0]["region"].should.deep.equal(new_shop["region"]);
-      JSON.parse(res2.text)[0]["address"].should.deep.equal(
-        new_shop["address"]
-      );
-      JSON.parse(res2.text)[0]["tel_number"].should.deep.equal(
-        new_shop["tel_number"]
-      );
-      JSON.parse(res2.text)[0]["postal_code"].should.deep.equal(
-        new_shop["postal_code"]
-      );
+      JSON.parse(res2.text)[0].should.deep.equal(new_shop);
     });
   });
 
