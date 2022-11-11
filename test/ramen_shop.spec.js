@@ -1,11 +1,23 @@
-const { expect, assert } = require("chai");
+const chai = require("chai");
+const chaiHttp = require("chai-http");
+chai.use(chaiHttp);
+const expect = chai.expect;
 const config = require("../knexfile");
 const knex = require("knex")(config);
 
+const { setupServer } = require("../src/server");
+const { ramen_shop } = require("../src/data/ramen_shop_data.json");
+
 const RAMEN_SHOP_TABLE = "ramen_shop";
 
+chai.should();
+
+const server = setupServer();
 describe("customer", () => {
-  before(async () => {});
+  let request;
+  beforeEach(() => {
+    request = chai.request(server);
+  });
 
   after(async () => {});
 
@@ -20,6 +32,26 @@ describe("customer", () => {
       knex(RAMEN_SHOP_TABLE)
         .select()
         .catch(() => assert.fail("ramen_shop table is not found."));
+    });
+  });
+
+  describe("GET / -- Hello World", () => {
+    it("should return all ramen shops", async () => {
+      const res = await request.get("/");
+      expect(res.text).to.equal("Hello World");
+    });
+  });
+
+  describe("GET /shops -- getAll", () => {
+    it("should return all ramen shops", async () => {
+      const res = await request.get("/shops");
+
+      JSON.parse(res.text).should.deep.equal(ramen_shop);
+    });
+
+    it("should return 3 ramen shops setting limit 3", async () => {
+      const res = await request.get("/shops").query({ limit: 3 });
+      JSON.parse(res.text).should.deep.equal(ramen_shop.slice(0, 3));
     });
   });
 });
