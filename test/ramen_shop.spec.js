@@ -114,7 +114,17 @@ describe("customer", () => {
     });
   });
 
-  describe("PATCH /shops/:id -- update ramen shop details", () => {
-    it("should return update id:1 ramen shop postal_code", async () => {});
+  describe("DELETE /shops/:id -- delete ramen shop record", () => {
+    it("should return delete id:1 ramen shop", async () => {
+      const id = 1;
+      const res = await request.delete(`/shops/${id}`);
+
+      res.should.have.status(200);
+      JSON.parse(res.text)["count"].should.deep.equal(1);
+
+      request = chai.request(server);
+      const res2 = await request.get(`/shops/${id}`);
+      expect(res2.text).to.deep.equal("[]");
+    });
   });
 });

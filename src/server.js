@@ -64,6 +64,17 @@ const setupServer = () => {
     res.status(200).send({ count: result });
   });
 
+  app.delete("/shops/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    let result;
+    if (isNaN(id)) {
+      result = 0;
+    } else {
+      result = await knex(RAMEN_SHOP_TABLE).where("id", id).delete();
+    }
+    res.status(200).send({ count: result });
+  });
+
   return app;
 };
 

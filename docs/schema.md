@@ -21,13 +21,3 @@
 ```
 
 =======
-
-## map_pos
-
-```
-{
-    shop_id int [ref: > ramen_shop.id, not null]
-    latitude numeric
-    longitude numeric
-}
-```
