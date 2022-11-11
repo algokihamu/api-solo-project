@@ -56,9 +56,42 @@ describe("customer", () => {
   });
 
   describe("GET /shops/:id -- getById", () => {
-    it("should return all ramen shops", async () => {
+    it("should return id:1 ramen shops", async () => {
       const res = await request.get("/shops/1");
       JSON.parse(res.text).should.deep.equal(ramen_shop.slice(0, 1));
+    });
+  });
+
+  describe("POST /shops -- insert new ramen shop", () => {
+    it("should return new ramen shop id", async () => {
+      const new_shop = {
+        name: "味玉",
+        city: "神奈川県",
+        region: "横浜市",
+        address: "横浜市南区浦舟町2-22",
+        tel_number: "045-251-3628",
+        postal_code: "232-0024",
+      };
+      const res = await request.post("/shops").send(new_shop);
+      const id = JSON.parse(res.text)[0]["id"];
+
+      res.should.have.status(201);
+
+      request = chai.request(server);
+      const res2 = await request.get(`/shops/${id}`);
+
+      JSON.parse(res2.text)[0]["name"].should.deep.equal(new_shop["name"]);
+      JSON.parse(res2.text)[0]["city"].should.deep.equal(new_shop["city"]);
+      JSON.parse(res2.text)[0]["region"].should.deep.equal(new_shop["region"]);
+      JSON.parse(res2.text)[0]["address"].should.deep.equal(
+        new_shop["address"]
+      );
+      JSON.parse(res2.text)[0]["tel_number"].should.deep.equal(
+        new_shop["tel_number"]
+      );
+      JSON.parse(res2.text)[0]["postal_code"].should.deep.equal(
+        new_shop["postal_code"]
+      );
     });
   });
 });

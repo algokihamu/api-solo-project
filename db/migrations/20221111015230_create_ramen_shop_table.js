@@ -19,5 +19,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  knex.schema.dropTable("ramen_shop");
+  return knex.schema.dropTable("ramen_shop");
 };

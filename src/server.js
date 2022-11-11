@@ -34,6 +34,21 @@ const setupServer = () => {
     res.status(200).send(result);
   });
 
+  app.post("/shops", async (req, res) => {
+    const new_shop = req.body;
+    const id = await knex(RAMEN_SHOP_TABLE)
+      .insert({
+        name: new_shop.name,
+        city: new_shop.city,
+        region: new_shop.region,
+        address: new_shop.address,
+        tel_number: new_shop.tel_number,
+        postal_code: new_shop.postal_code,
+      })
+      .returning("id");
+    res.status(201).send(id);
+  });
+
   return app;
 };
 

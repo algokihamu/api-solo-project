@@ -7,7 +7,6 @@ exports.seed = async function (knex) {
   await knex("ramen_shop").del();
   await knex("ramen_shop").insert([
     {
-      id: 1,
       name: "吉村家",
       city: "神奈川県",
       region: "横浜市",
@@ -16,7 +15,6 @@ exports.seed = async function (knex) {
       postal_code: "220-0005",
     },
     {
-      id: 2,
       name: "壱八家弘明寺店",
       city: "神奈川県",
       region: "横浜市",
@@ -25,7 +23,6 @@ exports.seed = async function (knex) {
       postal_code: "232-0067",
     },
     {
-      id: 3,
       name: "琉二家",
       city: "神奈川県",
       region: "横浜市",
@@ -34,7 +31,6 @@ exports.seed = async function (knex) {
       postal_code: "232-0054",
     },
     {
-      id: 4,
       name: "荻原屋",
       city: "神奈川県",
       region: "横浜市",
@@ -43,7 +39,6 @@ exports.seed = async function (knex) {
       postal_code: "232-0066",
     },
     {
-      id: 5,
       name: "萩原家",
       city: "神奈川県",
       region: "横浜市",
