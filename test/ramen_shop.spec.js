@@ -54,4 +54,11 @@ describe("customer", () => {
       JSON.parse(res.text).should.deep.equal(ramen_shop.slice(0, 3));
     });
   });
+
+  describe("GET /shops/:id -- getById", () => {
+    it("should return all ramen shops", async () => {
+      const res = await request.get("/shops/1");
+      JSON.parse(res.text).should.deep.equal(ramen_shop.slice(0, 1));
+    });
+  });
 });

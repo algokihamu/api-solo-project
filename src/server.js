@@ -23,6 +23,17 @@ const setupServer = () => {
     res.status(200).send(result);
   });
 
+  app.get("/shops/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    let result;
+    if (isNaN(id)) {
+      result = [];
+    } else {
+      result = await knex(RAMEN_SHOP_TABLE).where("id", id).select();
+    }
+    res.status(200).send(result);
+  });
+
   return app;
 };
 
