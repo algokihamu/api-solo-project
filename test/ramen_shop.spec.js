@@ -94,4 +94,27 @@ describe("customer", () => {
       );
     });
   });
+
+  describe("PATCH /shops/:id -- update ramen shop details", () => {
+    it("should return update id:1 ramen shop postal_code", async () => {
+      const id = 1;
+      const update_param = {
+        postal_code: "999-9999",
+      };
+      const res = await request.patch(`/shops/${id}`).send(update_param);
+
+      res.should.have.status(200);
+      JSON.parse(res.text)["count"].should.deep.equal(1);
+
+      request = chai.request(server);
+      const res2 = await request.get(`/shops/${id}`);
+      JSON.parse(res2.text)[0]["postal_code"].should.deep.equal(
+        update_param["postal_code"]
+      );
+    });
+  });
+
+  describe("PATCH /shops/:id -- update ramen shop details", () => {
+    it("should return update id:1 ramen shop postal_code", async () => {});
+  });
 });

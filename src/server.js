@@ -49,6 +49,21 @@ const setupServer = () => {
     res.status(201).send(id);
   });
 
+  app.patch("/shops/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    const update_param = req.body;
+
+    let result;
+    if (isNaN(id)) {
+      result = 0;
+    } else {
+      result = await knex(RAMEN_SHOP_TABLE)
+        .where("id", id)
+        .update(update_param);
+    }
+    res.status(200).send({ count: result });
+  });
+
   return app;
 };
 
