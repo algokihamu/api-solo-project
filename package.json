@@ -9,7 +9,7 @@
     "dev": "nodemon ./src/index.js",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
-    "reset": "knex migrate:down && knex migrate:latest && knex seed:run"
+    "reset": "knex migrate:rollback && knex migrate:latest && knex seed:run"
   },
   "repository": {
     "type": "git",

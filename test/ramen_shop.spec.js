@@ -65,6 +65,14 @@ describe("ramen_shop", () => {
     });
   });
 
+  describe("GET /shops/data/search?text=XXX -- getSearch", () => {
+    it("should return text='家' ramen shops", async () => {
+      const res = await request.get("/shops/data/search").query({ text: "家" });
+      const check = ramen_shop.filter((obj) => obj["name"].match("家"));
+      JSON.parse(res.text).should.deep.equal(check);
+    });
+  });
+
   describe("POST /shops -- insert new ramen shop", () => {
     it("should return new ramen shop id", async () => {
       const new_shop = {

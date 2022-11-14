@@ -34,6 +34,19 @@ const setupServer = () => {
     res.status(200).send(result);
   });
 
+  app.get("/shops/data/search", async (req, res) => {
+    const text = req.query.text;
+    let result;
+    if (text == null) {
+      result = await knex(RAMEN_SHOP_TABLE).select();
+    } else {
+      result = await knex(RAMEN_SHOP_TABLE)
+        .where("name", "like", `%${text}%`)
+        .select();
+    }
+    res.status(200).send(result);
+  });
+
   app.post("/shops", async (req, res) => {
     const new_shop = req.body;
     const id = await knex(RAMEN_SHOP_TABLE)
